@@ -1,4 +1,5 @@
 import json
+import subprocess
 
 CONFIG_PATH = 'config.json'
 LLAMA_PATH = './llama.cpp'
@@ -37,6 +38,11 @@ class Chat:
             f"-p \"### Instruction: {user_text}\n### Response:\""
         )
         return query_string
+    
+    def execute_query(self, user_text):
+        query_string = self.create_query(user_text)
+        completed_process = subprocess.run(query_string, shell=True, capture_output=True, text=True)
+        return completed_process.stdout
 
 # Créer une instance de la classe Chat
 chat_instance = Chat()
